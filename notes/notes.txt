@@ -1,0 +1,23 @@
+if i am building only the v1
+
+docker run --rm -i grafana/k6 run - < load-test.js
+
+make docker-build
+
+make docker-push
+
+kubectl rollout restart deployment/golang-backend-dev -n development
+
+kubectl rollout restart deployment/golang-backend-prod -n production
+
+
+
+--- auto scale production --
+
+kubectl apply -f deployments/manifests/hpa-prod.yml
+
+kubectl get hpa -n production
+
+
+watch -n 2 "kubectl get hpa,pods -n production"
+// to check every 2 seconds if we run production code

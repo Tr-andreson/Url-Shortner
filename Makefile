@@ -1,7 +1,10 @@
 IMAGE_NAME = tusand/go-hello-world
-TAG = v4
+TAG = v1
 
 .PHONY: docker-build docker-push
+
+run:
+	go run ./cmd/server/main.go
 
 docker-build:
 	docker build -f build/package/Dockerfile -t $(IMAGE_NAME):$(TAG) .

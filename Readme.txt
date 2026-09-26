@@ -14,6 +14,16 @@ make docker-push
 
 kubectl apply -f deployments/manifests/deployment-dev.yml
 
-kubectl rollout restart deployment/golang-backend-dev -n development // only change when only code is changed
+kubectl rollout restart deployment/golang-backend-dev -n development 
+// only change when only code is changed
 
 kubectl port-forward deployment/golang-backend-dev 8080:8080 -n development
+
+
+
+
+----- to check for deployments ------
+
+kubectl get pods -n development
+
+kubectl logs deployment/golang-backend-dev -n development
