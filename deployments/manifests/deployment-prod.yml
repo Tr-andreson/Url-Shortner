@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: production
+  name: golang-backend-prod
+  labels:
+    app: golang-backend
+    environment: prod
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: golang-backend
+      environment: prod
+  template:
+    metadata:
+      labels:
+        app: golang-backend
+        environment: prod
+    spec:
+      containers:
+      - name: server
+        image: tusand/go-hello-world:v4
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 10

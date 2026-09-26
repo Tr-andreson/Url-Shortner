@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: development
+  name: golang-backend-dev
+  labels:
+    app: golang-backend
+    environment: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: golang-backend
+      environment: dev
+  template:
+    metadata:
+      labels:
+        app: golang-backend
+        environment: dev
+    spec:
+      containers:
+      - name: server
+        image: tusand/go-hello-world:v4
+        # imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
