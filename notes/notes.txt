@@ -21,3 +21,6 @@ kubectl get hpa -n production
 
 watch -n 2 "kubectl get hpa,pods -n production"
 // to check every 2 seconds if we run production code
+
+
+

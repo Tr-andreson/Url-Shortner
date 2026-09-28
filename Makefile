@@ -3,6 +3,9 @@ TAG = v1
 
 .PHONY: docker-build docker-push
 
+run-prod:
+	APP_ENV=production go run ./cmd/server/main.go
+
 run:
 	go run ./cmd/server/main.go
 

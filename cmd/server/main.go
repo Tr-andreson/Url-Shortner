@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"os"
 	"net/http"
 	"sync"
 )
@@ -79,19 +80,21 @@ func handleHealth(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	appEnv := os.Getenv("APP_ENV")
+
+	if appEnv == "" {
+			appEnv = "development" 
+	}
+
+	fmt.Printf("Starting server in [%s] mode ...\n", appEnv)
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", handleHealth)
 
 	mux.HandleFunc("POST /shorten", handleShorten)
 
-	// Exact routes
 	mux.HandleFunc("GET /", handleRedirect)
 
-	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Health Route workingg!")
-	})
 
-	fmt.Println("Server is running on port 8080...")
 	if err := http.ListenAndServe(":8080", mux); err != nil {
 		fmt.Println("Error starting server:", err)
 	}
